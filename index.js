@@ -15,49 +15,54 @@ app.use(express.json());
 app.use(cors());
 
 const webAppUrl = 'https://curious-puffpuff-a70a97.netlify.app';
-
 bot.on('message', async (msg) => {
   const chatId = msg.chat.id;
   const text = msg.text;
   if (text === '/start') {
-    await bot.sendMessage(chatId, 'Ниже появиться кнопка, заполни форму', {
-      reply_markup: {
-        keyboard: [
-          [{
-            text: 'Заполни форму',
-            web_app: {
-              url: webAppUrl + '/form'
-            }
-          }]
-        ]
-      }
-    });
-    await bot.sendMessage(chatId, 'Интерет магазин', {
+    await bot.sendMessage(chatId, 'Ниже появиться кнопка', {
       reply_markup: {
         inline_keyboard: [
           [{
-            text: 'Сделать заказ',
+            text: '[TEST]: Открыть медецинский бот',
             web_app: {
               url: webAppUrl
             }
-          }]
+          }],
+          [{
+            text: '[TEST]: Открыть ели пели',
+            web_app: {
+              url: 'https://legendary-piroshki-6ec5b8.netlify.app/'
+            }
+          }],
         ]
       }
     });
+    // await bot.sendMessage(chatId, 'Сделать заказ', {
+    //   reply_markup: {
+    //     inline_keyboard: [
+    //       [{
+    //         text: '[TEST]: Открыть сайт',
+    //         web_app: {
+    //           url: webAppUrl
+    //         }
+    //       }]
+    //     ]
+    //   }
+    // });
   }
-  if (msg?.web_app_data?.data) {
-    try {
-      const data = JSON.parse(msg?.web_app_data?.data);
-      await bot.sendMessage(chatId, 'Спасибо за обратную связь');
-      await bot.sendMessage(chatId, 'Ваша страна: ' + data?.country);
-      await bot.sendMessage(chatId, 'Ваша улица: ' + data?.street);
-      setImmediate(() => {
-        bot.sendMessage(chatId, 'Всю информацию вы получите в нашем чате');
-      }, 3000);
-    } catch (e) {
-      console.error(e)
-    }
-  }
+  // if (msg?.web_app_data?.data) {
+  //   try {
+  //     const data = JSON.parse(msg?.web_app_data?.data);
+  //     await bot.sendMessage(chatId, 'Спасибо за обратную связь');
+  //     await bot.sendMessage(chatId, 'Ваша страна: ' + data?.country);
+  //     await bot.sendMessage(chatId, 'Ваша улица: ' + data?.street);
+  //     setImmediate(() => {
+  //       bot.sendMessage(chatId, 'Всю информацию вы получите в нашем чате');
+  //     }, 3000);
+  //   } catch (e) {
+  //     console.error(e)
+  //   }
+  // }
 });
 
 app.post('/web-data', async (req, res) => {
